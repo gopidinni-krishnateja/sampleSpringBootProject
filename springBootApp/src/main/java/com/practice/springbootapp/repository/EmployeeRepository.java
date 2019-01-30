@@ -14,4 +14,5 @@ public interface EmployeeRepository  {
     public Employee updateEmployee(String id,Employee employee);
     public String deleterEmployee(String id);
     public String readEmployeeCSV(MultipartFile file) throws IOException;
+    public String generateEmployeeData();
 }

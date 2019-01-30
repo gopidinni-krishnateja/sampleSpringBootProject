@@ -51,12 +51,12 @@ public class EmployeeController {
 
     @RequestMapping(value = "/employeeList",method = RequestMethod.POST, consumes = {"multipart/form-data"})
     public String readEmployeeCSV( @RequestPart MultipartFile file) throws IOException {
-        System.out.println("&&&&&&&&&&&&&&");
         return this.employee.readEmployeeCSV(file);
     }
-    @PostMapping(value = "/upload", consumes = "multipart/form-data")
-    public void uploadMultipart(@RequestParam("file") MultipartFile file) throws IOException {
-         this.employee.readEmployeeCSV(file);
+
+    @RequestMapping(value="/generateEmployeeData", method = RequestMethod.GET)
+    public String generateJsonFile(){
+        return this.employee.generateEmployeeData();
     }
 }
 
