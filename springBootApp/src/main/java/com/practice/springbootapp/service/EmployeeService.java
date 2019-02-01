@@ -6,6 +6,8 @@ import com.mongodb.client.result.DeleteResult;
 import com.practice.springbootapp.csvUtils.CsvUtils;
 import com.practice.springbootapp.modal.Employee;
 import com.practice.springbootapp.repository.EmployeeRepository;
+import org.apache.log4j.Logger;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -19,6 +21,7 @@ import java.util.List;
 
 @Repository
 public class EmployeeService  implements EmployeeRepository {
+    private final Logger LOG = Logger.getLogger(EmployeeService.class);
     @Autowired
     private MongoTemplate mongoTemplate;
     @Override
@@ -34,8 +37,16 @@ public class EmployeeService  implements EmployeeRepository {
     }
 
     @Override
-    public Employee saveEmployee(Employee employee) {
-        return mongoTemplate.save(employee);
+    public String saveEmployee(Employee employee) {
+        try {
+             mongoTemplate.save(employee);
+            LOG.info("Saved the Employee Record");
+            return "Employeed Saved Success";
+        } catch (Exception e){
+            LOG.error("Failed to store employee record to db- "+e);
+            return "Failed to store employee record";
+        }
+
     }
 
     @Override
@@ -79,12 +90,16 @@ public class EmployeeService  implements EmployeeRepository {
         List<Employee> employeeList = mongoTemplate.findAll(Employee.class);
         try {
             mapper.writeValue(new File("/home/semanticbits/Desktop/employeeData.json"), employeeList);
-            } catch (JsonMappingException e) {
-            e.printStackTrace();
+            LOG.info("Successfully generated employee json");
+            return "Successfully generated employee json";
+        } catch (JsonMappingException e) {
+            LOG.error("Failed to generate Employee json file"+e);
+            return "Failed to generate Employee json file";
         } catch (IOException e) {
-            e.printStackTrace();
+            LOG.error( "Failed to generate Employee json file"+e);
+            return "Failed to generate Employee json file";
         }
-        return "Successfully generated employee json";
+
     }
 
 }

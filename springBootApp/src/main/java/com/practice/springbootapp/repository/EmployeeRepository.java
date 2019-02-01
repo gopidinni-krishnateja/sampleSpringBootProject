@@ -10,7 +10,7 @@ import java.util.List;
 public interface EmployeeRepository  {
     public Employee findById(String id);
     List<Employee> getAllEmployee();
-    public Employee saveEmployee(Employee employee);
+    public String saveEmployee(Employee employee);
     public Employee updateEmployee(String id,Employee employee);
     public String deleterEmployee(String id);
     public String readEmployeeCSV(MultipartFile file) throws IOException;

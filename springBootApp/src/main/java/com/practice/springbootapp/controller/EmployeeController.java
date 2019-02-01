@@ -3,9 +3,9 @@ package com.practice.springbootapp.controller;
 
 import com.practice.springbootapp.modal.Employee;
 import com.practice.springbootapp.repository.EmployeeRepository;
+import org.apache.log4j.Logger;
 import org.springframework.web.bind.annotation.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -15,7 +15,7 @@ import java.util.List;
 @RequestMapping(value = "/")
 public class EmployeeController {
 
-    private final Logger LOG = LoggerFactory.getLogger(getClass());
+    private final Logger log = Logger.getLogger(EmployeeController.class);
     private final EmployeeRepository employee;
 
     public EmployeeController(EmployeeRepository employee) {
@@ -25,12 +25,12 @@ public class EmployeeController {
 
     @RequestMapping(value = "/getAll", method = RequestMethod.GET)
     public List<Employee> getAllUsers() {
-        LOG.info("Getting all users.");
         return employee.getAllEmployee();
     }
 
     @RequestMapping(value="/createEmployee",method = RequestMethod.POST)
-    public  Employee createEmployee(@RequestBody Employee employee){
+    public String createEmployee(@RequestBody Employee employee){
+        log.warn("Controller called for creating employee");
         return this.employee.saveEmployee(employee);
     }
 
